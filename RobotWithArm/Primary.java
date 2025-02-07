@@ -95,8 +95,8 @@ public class Primary extends OpMode
         armDrive = hardwareMap.dcMotor.get("armmotor");
         
         // Servos 
-        leftServo = hardwareMap.servo.get("left_servo");
-        rightServo = hardwareMap.servo.get("right_servo");
+        leftServo = hardwareMap.servo.get("left_servo"); // Servo not on the right 
+        rightServo = hardwareMap.servo.get("right_servo"); // Servo on the right
         
         
         
@@ -124,10 +124,10 @@ public class Primary extends OpMode
         
         
         // Tell the driver that initialization is complete.
-        telemetry.addData("Status", "Initialized");
+        telemetry.addData("Status", "Initialized"); 
         
-        leftServo.setDirection(Servo.Direction.REVERSE);
-        rightServo.setDirection(Servo.Direction.REVERSE);
+        leftServo.setDirection(Servo.Direction.REVERSE); // Servo reverses
+        rightServo.setDirection(Servo.Direction.REVERSE); // Right servo reverse
         
         extentormotor_pos = extentormotor.getCurrentPosition();
         telemetry.addData("Current pos: ", extentormotor_pos);
@@ -190,7 +190,7 @@ public class Primary extends OpMode
         // Setup a variable for each drive wheel to save power level for telemetry
         double leftPower = 0.0;
         double rightPower = 0.0;
-        double speed_control = 1.0;
+        double speed_control = 1.0; // Sets speed to normal speed
         
         extentormotor.setPower(0.0);
         
@@ -228,13 +228,13 @@ public class Primary extends OpMode
             if (gamepad1.left_bumper) {
                 if (clawPower > 0.55) // Range needs to be adjusted
                 {
-                    clawPower -= 0.01;
+                    clawPower -= 0.01; // Decraments claw power (closes it)
                 }
             }
-            else if (gamepad1.right_bumper) {
+            else if (gamepad1.right_bumper) { 
                 if (clawPower < 1) // Range needs to be adjusted
                 {
-                    clawPower += 0.01;
+                    clawPower += 0.01; // Incraments claw power (opens it)
                 }
             }
             
@@ -300,8 +300,8 @@ public class Primary extends OpMode
         armDrive.setTargetPosition(armTpos);
         
         
-        rightServo.setPosition(clawPower);
-        leftServo.setPosition(Math.abs(1-clawPower));
+        rightServo.setPosition(clawPower); // Sets left servo position and gets subtracted by the left servo and one
+        leftServo.setPosition(Math.abs(1-clawPower)); // Sets left servo position to the difference between the right servo and one
         
         
         
