@@ -70,7 +70,7 @@ public class Primary extends OpMode
     private void BACKWARD ()
     {
         leftDrive.setPower(-1.0);
-        rightDrive.setPower(-1.0);
+        rightDrive.setPower(-1.0); // Sets the power for the right drive
     }
     private void STOPMOVE ()
     {
@@ -175,10 +175,6 @@ public class Primary extends OpMode
         
         runtime.reset();
         
-        //extentormotor_pos = extentormotor.getCurrentPosition();
-        //telemetry.addData("Current pos: ", extentormotor_pos);
-        //extentormotor.setTargetPosition(extentormotor_pos);
-        
     }
 
     /*
@@ -193,10 +189,6 @@ public class Primary extends OpMode
         double speed_control = 1.0; // Sets speed to normal speed
         
         extentormotor.setPower(0.0);
-        
-        // Choose to drive using either Tank Mode, or POV Mode
-        // Comment out the method that's not used.  The default below is POV.
-        
         
         
         // POV Mode uses left stick to go forward, and right stick to turn.
@@ -244,14 +236,14 @@ public class Primary extends OpMode
             basearmpos = armTpos;
             armposbyass = true;
         }
-        else if (gamepad1.a) // Speed control press A to slow down drive
+        else if (gamepad1.a) // Speed control press A to slow down the drive
         {
             speed_control = 0.5;
         }
         
         if (gamepad1.right_trigger > 0)
         {
-            if (extentormotor_pos < 4500)
+            if (extentormotor_pos < 4500) // Extends the arm
             {
                 extentormotor_pos += 2;
                 //extentormotor.setTargetPosition(extentormotor_pos);
@@ -263,35 +255,10 @@ public class Primary extends OpMode
         {   
             extentormotor_pos -= 2;
             //extentormotor.setTargetPosition(extentormotor_pos);
-            extentormotor.setPower(-1 * extentor_speed);
+            extentormotor.setPower(-1 * extentor_speed); // Retracts/Pulls in the arm
                 
         }
-        /** Gamepad 2 Test
-        if (gamepad2.b)
-        {
-            leftServo.setPosition(1.0);
-        }
-        if (gamepad2.x) 
-        {
-            leftServo.setPosition(0.0);
-        }
-        if (gamepad2.a)
-        {
-            leftServo.setPosition(0.5);
-        }
-        if (gamepad2.dpad_left) 
-        {
-            rightServo.setPosition(0);
-        }
-        if (gamepad2.dpad_down) 
-        {
-            rightServo.setPosition(0.5);
-        }
-        if (gamepad2.dpad_right)
-        {
-            rightServo.setPosition(1.0);
-        }
-        **/
+       
         //telemetry.addData("Orange", "left (%.2f), right (%.2f)", gamepad1.left_stick_y, gamepad1.right_stick_y);
         
         leftDrive.setPower(leftPower * speed_control);
