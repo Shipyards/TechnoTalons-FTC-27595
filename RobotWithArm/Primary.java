@@ -95,8 +95,8 @@ public class Primary extends OpMode
         armDrive = hardwareMap.dcMotor.get("armmotor");
         
         // Servos 
-        leftServo = hardwareMap.servo.get("left_servo"); // Servo not on the right 
-        rightServo = hardwareMap.servo.get("right_servo"); // Servo on the right
+        leftServo = hardwareMap.servo.get("left_servo");
+        rightServo = hardwareMap.servo.get("right_servo");
         
         
         
@@ -124,10 +124,10 @@ public class Primary extends OpMode
         
         
         // Tell the driver that initialization is complete.
-        telemetry.addData("Status", "Initialized"); 
+        telemetry.addData("Status", "Initialized");
         
-        leftServo.setDirection(Servo.Direction.REVERSE); // Servo reverses
-        rightServo.setDirection(Servo.Direction.REVERSE); // Right servo reverse
+        leftServo.setDirection(Servo.Direction.REVERSE);
+        rightServo.setDirection(Servo.Direction.REVERSE);
         
         extentormotor_pos = extentormotor.getCurrentPosition();
         telemetry.addData("Current pos: ", extentormotor_pos);
@@ -171,8 +171,6 @@ public class Primary extends OpMode
         armDrive.setPower(0.0);
         armDrive.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         
-        
-        
         runtime.reset();
         
         //extentormotor_pos = extentormotor.getCurrentPosition();
@@ -190,7 +188,7 @@ public class Primary extends OpMode
         // Setup a variable for each drive wheel to save power level for telemetry
         double leftPower = 0.0;
         double rightPower = 0.0;
-        double speed_control = 1.0; // Sets speed to normal speed
+        double speed_control = 1.0;
         
         extentormotor.setPower(0.0);
         
@@ -215,30 +213,29 @@ public class Primary extends OpMode
             leftPower = -1.0; rightPower = -1.0;
         }
         if (!gamepad1.b) {
-            if (gamepad1.left_bumper && armTpos <= (basearmpos+300))
+            if (gamepad1.left_bumper && armTpos <= (basearmpos+300)) 
             {
                 armTpos =  armTpos + 1; armposbyass = false;
             }
-            if (gamepad1.right_bumper && (armTpos >= basearmpos || armposbyass))
+            if (gamepad1.right_bumper && (armTpos >= basearmpos || armposbyass)) // Moves arm upward
             {
                 armTpos = armTpos - 1; armposbyass = false;
             }
         }
-        else if (gamepad1.b) {
-            if (gamepad1.left_bumper) {
-                if (clawPower > 0.55) // Range needs to be adjusted
-                {
-                    clawPower -= 0.01; // Decraments claw power (closes it)
-                }
+        if (gamepad1.dpad_left) {
+            if (clawPower > 0.55) // Range needs to be adjusted
+            {
+                clawPower -= 0.01;
             }
-            else if (gamepad1.right_bumper) { 
-                if (clawPower < 1) // Range needs to be adjusted
-                {
-                    clawPower += 0.01; // Incraments claw power (opens it)
-                }
-            }
-            
         }
+        else if (gamepad1.dpad_right) {
+            if (clawPower < 1) // Range needs to be adjusted
+            {
+                clawPower += 0.01;
+            }
+        }
+            
+        
         if (gamepad1.x) // Arm reset I think??
         {
             basearmpos = armTpos;
@@ -251,7 +248,7 @@ public class Primary extends OpMode
         
         if (gamepad1.right_trigger > 0)
         {
-            if (extentormotor_pos < 4500)
+            if (extentormotor_pos < 4500) // Make sure that the arm does not extend too far
             {
                 extentormotor_pos += 2;
                 //extentormotor.setTargetPosition(extentormotor_pos);
@@ -266,32 +263,7 @@ public class Primary extends OpMode
             extentormotor.setPower(-1 * extentor_speed);
                 
         }
-        /** Gamepad 2 Test
-        if (gamepad2.b)
-        {
-            leftServo.setPosition(1.0);
-        }
-        if (gamepad2.x) 
-        {
-            leftServo.setPosition(0.0);
-        }
-        if (gamepad2.a)
-        {
-            leftServo.setPosition(0.5);
-        }
-        if (gamepad2.dpad_left) 
-        {
-            rightServo.setPosition(0);
-        }
-        if (gamepad2.dpad_down) 
-        {
-            rightServo.setPosition(0.5);
-        }
-        if (gamepad2.dpad_right)
-        {
-            rightServo.setPosition(1.0);
-        }
-        **/
+        
         //telemetry.addData("Orange", "left (%.2f), right (%.2f)", gamepad1.left_stick_y, gamepad1.right_stick_y);
         
         leftDrive.setPower(leftPower * speed_control);
@@ -300,8 +272,8 @@ public class Primary extends OpMode
         armDrive.setTargetPosition(armTpos);
         
         
-        rightServo.setPosition(clawPower); // Sets left servo position and gets subtracted by the left servo and one
-        leftServo.setPosition(Math.abs(1-clawPower)); // Sets left servo position to the difference between the right servo and one
+        rightServo.setPosition(clawPower);
+        leftServo.setPosition(Math.abs(1-clawPower));
         
         
         
@@ -324,8 +296,6 @@ public class Primary extends OpMode
         telemetry.addData("extender position", extentormotor_pos);
         
         telemetry.addData("CLAW CLAW CLAW", clawPower);
-        
-        // Delete later
         
         
     }
